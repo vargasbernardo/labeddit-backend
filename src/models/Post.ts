@@ -76,10 +76,10 @@ export class Post {
         this.likes = value
     }
 
-    public addLikes = (): void => {
+    public addLike = (): void => {
         this.likes++
     }
-    public removeLikes = (): void => {
+    public removeLike = (): void => {
         this.likes--
     }
 
@@ -91,10 +91,10 @@ export class Post {
     
     }
 
-    public addDislikes = (): void => {
+    public addDislike = (): void => {
         this.dislikes++
     }
-    public removedislikes = (): void => {
+    public removeDislike = (): void => {
         this.dislikes--
     }
 
