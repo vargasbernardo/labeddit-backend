@@ -1,15 +1,17 @@
-import z from 'zod'
+import z from "zod";
 
 export interface LoginInputDTO {
-    email: string,
-    password: string
+  email: string;
+  password: string;
 }
 
 export interface LoginOutputDTO {
-    token: string
+  token: string;
 }
 
-export const LoginSchema = z.object({
+export const LoginSchema = z
+  .object({
     email: z.string().email(),
-    password: z.string().min(6)
-}).transform(data => data as LoginInputDTO)
+    password: z.string().min(6),
+  })
+  .transform((data) => data as LoginInputDTO);

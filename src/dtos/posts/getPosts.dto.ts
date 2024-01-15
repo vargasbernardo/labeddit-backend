@@ -1,12 +1,14 @@
-import z from 'zod'
-import { PostModel } from '../../models/Post'
+import z from "zod";
+import { PostModel } from "../../models/Post";
 
 export interface GetPostsInputDTO {
-    token: string
+  token: string;
 }
 
-export type GetPostsOutputDTO = Array<PostModel>
+export type GetPostsOutputDTO = Array<PostModel>;
 
-export const GetPostsSchema = z.object({
-    token: z.string().min(1)
-}).transform(data => data as GetPostsInputDTO)
+export const GetPostsSchema = z
+  .object({
+    token: z.string().min(1),
+  })
+  .transform((data) => data as GetPostsInputDTO);
