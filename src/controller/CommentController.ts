@@ -1,23 +1,43 @@
+import { ZodError } from "zod";
 import { Request, Response } from "express";
-import { ZodError, string } from "zod";
-import { CreatePostSchema } from "../dtos/posts/createPost.dto";
-import { GetPostsSchema } from "../dtos/posts/getPosts.dto";
-import { DeletePostByIdSchema } from "../dtos/posts/deletePostById.dto";
-import { LikeOrDislikePostSchema } from "../dtos/posts/likeOrDislikePost.dto";
 import { BaseError } from "../errors/BaseError";
-import { PostBusiness } from "../business/PostBusiness";
-import { EditPostByIdSchema } from "../dtos/posts/editPostById.dto";
+import { GetCommentsSchema } from "../dtos/comments/getComments.dto";
+import { CommentBusiness } from "../business/CommentBusiness";
+import { CreateCommentSchema } from "../dtos/comments/createComment.dto";
+import { EditCommentSchema } from "../dtos/comments/editComment.dto";
+import { DeleteCommentSchema } from "../dtos/comments/deleteComment.dto";
+import { LikeOrDislikeCommentSchema } from "../dtos/comments/likeOrDislikeComment.dto";
 
-export class PostController {
-  constructor(private postBusiness: PostBusiness) {}
+export class CommentController {
+  constructor(private commentBusiness: CommentBusiness) {}
 
-  public createPost = async (req: Request, res: Response) => {
+  public getComments = async (req: Request, res: Response) => {
     try {
-      const input = CreatePostSchema.parse({
-        content: req.body.content,
+      const input = GetCommentsSchema.parse({
         token: req.headers.authorization,
       });
-      const output = await this.postBusiness.createPost(input);
+      const output = await this.commentBusiness.getComments(input);
+      res.status(200).send(output);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof ZodError) {
+        res.status(400).send(error.issues);
+      } else if (error instanceof BaseError) {
+        res.status(error.statusCode).send(error.message);
+      } else {
+        res.status(500).send("Erro inesperado");
+      }
+    }
+  };
+
+  public createComment = async (req: Request, res: Response) => {
+    try {
+      const input = CreateCommentSchema.parse({
+        token: req.headers.authorization,
+        content: req.body.content,
+        postId: req.params.postId,
+      });
+      const output = await this.commentBusiness.createComment(input);
       res.status(201).send(output);
     } catch (error) {
       console.log(error);
@@ -31,34 +51,18 @@ export class PostController {
     }
   };
 
-  public getPosts = async (req: Request, res: Response) => {
+  public editComment = async (req: Request, res: Response) => {
     try {
-      const input = GetPostsSchema.parse({
+      const input = EditCommentSchema.parse({
         token: req.headers.authorization,
-      });
-      const output = await this.postBusiness.getPosts(input);
-      res.status(200).send(output);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        res.status(400).send(error.issues);
-      } else if (error instanceof BaseError) {
-        res.status(error.statusCode).send(error.message);
-      } else {
-        res.status(500).send("Erro inesperado");
-      }
-    }
-  };
-
-  public editPostById = async (req: Request, res: Response) => {
-    try {
-      const input = EditPostByIdSchema.parse({
         content: req.body.content,
-        token: req.headers.authorization,
-        idToEdit: req.params.id,
+        postId: req.params.postId,
+        commentId: req.params.commentId,
       });
-      const output = await this.postBusiness.editPostById(input);
+      const output = await this.commentBusiness.editComment(input);
       res.status(200).send(output);
     } catch (error) {
+      console.log(error);
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -69,15 +73,16 @@ export class PostController {
     }
   };
 
-  public deletePostById = async (req: Request, res: Response) => {
+  public deleteComment = async (req: Request, res: Response) => {
     try {
-      const input = DeletePostByIdSchema.parse({
-        idToDelete: req.params.id,
+      const input = DeleteCommentSchema.parse({
         token: req.headers.authorization,
+        id: req.params.id,
       });
-      const output = await this.postBusiness.deletePostById(input);
+      const output = await this.commentBusiness.deleteComment(input);
       res.status(200).send(output);
     } catch (error) {
+      console.log(error);
       if (error instanceof ZodError) {
         res.status(400).send(error.issues);
       } else if (error instanceof BaseError) {
@@ -88,14 +93,14 @@ export class PostController {
     }
   };
 
-  public likeOrDislikePostById = async (req: Request, res: Response) => {
+  public likeOrDislikeComment = async (req: Request, res: Response) => {
     try {
-      const input = LikeOrDislikePostSchema.parse({
+      const input = LikeOrDislikeCommentSchema.parse({
         like: req.body.like,
         token: req.headers.authorization,
-        postId: req.params.id,
+        commentId: req.params.id,
       });
-      const output = await this.postBusiness.likeOrDislikePost(input);
+      const output = await this.commentBusiness.likeOrDislikeComment(input);
       res.status(200).send(output);
     } catch (error) {
       console.log(error);
