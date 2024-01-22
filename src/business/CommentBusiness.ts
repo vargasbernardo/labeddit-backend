@@ -7,7 +7,7 @@ import {
   DeleteCommentInputDTO,
   DeleteCommentOutputDTO,
 } from "../dtos/comments/deleteComment.dto";
-import { EditCommentInputDTO } from "../dtos/comments/editComment.dto";
+import { EditCommentInputDTO, EditCommentOutputDTO } from "../dtos/comments/editComment.dto";
 import {
   GetCommentsInputDTO,
   GetCommentsOutputDTO,
@@ -69,7 +69,7 @@ export class CommentBusiness {
     return output;
   };
 
-  public editComment = async (input: EditCommentInputDTO): Promise<void> => {
+  public editComment = async (input: EditCommentInputDTO): Promise<EditCommentOutputDTO> => {
     const { token, content, commentId } = input;
 
     const payload = this.tokenManager.getPayload(token);
@@ -98,7 +98,7 @@ export class CommentBusiness {
     const updatedCommentDB = comment.toDBModel();
     await this.commentDatabase.updateComment(updatedCommentDB);
 
-    const output: CreateCommentOutputDTO = undefined;
+    const output: EditCommentOutputDTO = undefined;
     return output;
   };
 

@@ -11,6 +11,7 @@ import {
   EditPostByIdInputDTO,
   EditPostByIdOutputDTO,
 } from "../dtos/posts/editPostById.dto";
+import { GetPostByIdInputDTO, GetPostByIdOutputDTO } from "../dtos/posts/getPostById.dto";
 import {
   GetPostsInputDTO,
   GetPostsOutputDTO,
@@ -21,7 +22,7 @@ import {
 } from "../dtos/posts/likeOrDislikePost.dto";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
-import { LikeDislikeDB, POST_LIKE, Post } from "../models/Post";
+import { LikeDislikeDB, POST_LIKE, Post, PostModel } from "../models/Post";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
 
@@ -85,6 +86,35 @@ export class PostBusiness {
     const output: GetPostsOutputDTO = posts;
     return output;
   };
+
+  public getPostById = async (input: GetPostByIdInputDTO): Promise<PostModel> => {
+    const {token, id} = input;
+    const payload = this.tokenManager.getPayload(token);
+    if (!payload) {
+      throw new BadRequestError();
+    }
+
+    const postDB = await this.postDatabase.fetchPost(id);
+    if(!postDB){
+      throw new NotFoundError();
+    }
+
+    const post = new Post(
+      postDB.id,
+      postDB.content,
+      postDB.likes,
+      postDB.dislikes,
+      postDB.created_at,
+      postDB.updated_at,
+      postDB.creator_id,
+      payload.name
+    )
+
+    const output = post.toBusinessModel()
+    return output
+    
+
+  }
 
   public editPostById = async (
     input: EditPostByIdInputDTO

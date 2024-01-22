@@ -7,6 +7,7 @@ import { LikeOrDislikePostSchema } from "../dtos/posts/likeOrDislikePost.dto";
 import { BaseError } from "../errors/BaseError";
 import { PostBusiness } from "../business/PostBusiness";
 import { EditPostByIdSchema } from "../dtos/posts/editPostById.dto";
+import { GetPostByIdSchema } from "../dtos/posts/getPostById.dto";
 
 export class PostController {
   constructor(private postBusiness: PostBusiness) {}
@@ -48,6 +49,25 @@ export class PostController {
       }
     }
   };
+
+  public getPostById = async (req: Request, res: Response) => {
+    try {
+      const input = GetPostByIdSchema.parse({
+        token: req.headers.authorization,
+        id: req.params.id
+      })
+      const output = await this.postBusiness.getPostById(input);
+      res.status(200).send(output);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res.status(400).send(error.issues);
+      } else if (error instanceof BaseError) {
+        res.status(error.statusCode).send(error.message);
+      } else {
+        res.status(500).send("Erro inesperado");
+      }
+    }
+  }
 
   public editPostById = async (req: Request, res: Response) => {
     try {
