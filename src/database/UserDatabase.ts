@@ -19,4 +19,9 @@ export class UserDatabase extends BaseDatabase {
       .where("email", email);
     return userDB;
   };
+
+  public getUsers = async (): Promise<Array<UserDB>> => {
+    const usersDB: Array<UserDB> = await BaseDatabase.connection(UserDatabase.TABLE_USERS).select();
+    return usersDB
+  }
 }

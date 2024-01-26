@@ -1,4 +1,5 @@
 import { UserDatabase } from "../database/UserDatabase";
+import { GetUsersInputDTO, GetUsersOutputDTO } from "../dtos/users/getUsers.dto";
 import { LoginInputDTO, LoginOutputDTO } from "../dtos/users/login.dto";
 import { SignupInputDTO, SignupOutputDTO } from "../dtos/users/signup.dto";
 import { BadRequestError } from "../errors/BadRequestError";
@@ -76,4 +77,25 @@ export class UserBusiness {
     };
     return output;
   };
+  public getUsers = async (input: GetUsersInputDTO): Promise<GetUsersOutputDTO> => {
+    const {token} = input
+    const payload =this.tokenManager.getPayload(token)
+    if(!payload){
+      throw new BadRequestError("token invalido")
+    }
+    const usersDB = await this.userDatabase.getUsers()
+
+    const users = usersDB.map((userDB) => {
+      const user = new User(
+        userDB.id,
+        userDB.name,
+        userDB.email,
+        userDB.password,
+        userDB.created_at
+      )
+      return user.toBusinessModel()
+    })
+    const output: GetUsersOutputDTO = users
+    return output
+  }
 }
