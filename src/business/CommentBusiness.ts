@@ -65,7 +65,7 @@ export class CommentBusiness {
     const id = this.idGenerator.generate();
     const comment = new Comment(id, payload.id, postId, content, 0, 0);
     await this.commentDatabase.createComment(comment.toDBModel());
-    const output: CreateCommentOutputDTO = undefined;
+    const output: CreateCommentOutputDTO = comment.toBusinessModel();
     return output;
   };
 

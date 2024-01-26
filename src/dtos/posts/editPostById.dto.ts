@@ -1,4 +1,5 @@
 import z from "zod";
+import { PostModel } from "../../models/Post";
 
 export interface EditPostByIdInputDTO {
   content: string;
@@ -6,7 +7,7 @@ export interface EditPostByIdInputDTO {
   idToEdit: string;
 }
 
-export type EditPostByIdOutputDTO = undefined;
+export type EditPostByIdOutputDTO = PostModel;
 
 export const EditPostByIdSchema = z
   .object({

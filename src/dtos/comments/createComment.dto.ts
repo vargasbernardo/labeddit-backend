@@ -1,4 +1,5 @@
 import z from "zod";
+import { CommentModel } from "../../models/Comment";
 
 export interface CreateCommentInputDTO {
   token: string;
@@ -6,7 +7,7 @@ export interface CreateCommentInputDTO {
   postId: string;
 }
 
-export type CreateCommentOutputDTO = undefined;
+export type CreateCommentOutputDTO = CommentModel;
 
 export const CreateCommentSchema = z
   .object({
