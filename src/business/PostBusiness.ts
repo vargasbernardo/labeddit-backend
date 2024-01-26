@@ -55,7 +55,7 @@ export class PostBusiness {
       payload.name
     );
     await this.postDatabase.createPost(post.toDBModel());
-    const output: CreatePostOutputDTO = undefined;
+    const output: CreatePostOutputDTO = post.toBusinessModel();
     return output;
   };
 
@@ -150,8 +150,8 @@ export class PostBusiness {
     const updatedPostDB = post.toDBModel();
     await this.postDatabase.updatePost(updatedPostDB);
 
-    const output: CreatePostOutputDTO = undefined;
-    return output;
+    const output: CreatePostOutputDTO = post.toBusinessModel();
+    return output
   };
 
   public deletePostById = async (

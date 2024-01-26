@@ -1,4 +1,4 @@
-import { COMMENT_LIKE, CommentDB, LikesDislikeDB } from "../models/Comment";
+import { COMMENT_LIKE, CommentDB, CommentDBWithCreatorName, LikesDislikeDB } from "../models/Comment";
 import { BaseDatabase } from "./BaseDatabase";
 import { UserDatabase } from "./UserDatabase";
 
@@ -13,6 +13,25 @@ export class CommentDatabase extends BaseDatabase {
 
     return result;
   };
+
+  public getCommentsWithCreatorName = async (): Promise<Array<CommentDBWithCreatorName>> => {
+    const result = await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS).select(
+      `${CommentDatabase.TABLE_COMMENTS}.id`,
+      `${CommentDatabase.TABLE_COMMENTS}.creator_id`,
+      `${CommentDatabase.TABLE_COMMENTS}.post_id`,
+      `${CommentDatabase.TABLE_COMMENTS}.content`,
+      `${CommentDatabase.TABLE_COMMENTS}.likes`,
+      `${CommentDatabase.TABLE_COMMENTS}.dislikes`,
+      `${UserDatabase.TABLE_USERS}.name as creator_name`
+    )
+    .join(
+      `${UserDatabase.TABLE_USERS}`,
+      `${CommentDatabase.TABLE_COMMENTS}.creator_id`,
+      "=",
+      `${UserDatabase.TABLE_USERS}.id`
+    )
+    return result as Array<CommentDBWithCreatorName>;
+  }
 
   public createComment = async (commentDB: CommentDB): Promise<void> => {
     await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS).insert(
