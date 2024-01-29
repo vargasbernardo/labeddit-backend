@@ -14,30 +14,48 @@
 - Jest
 
 **Instalação**
-´´´npm install´´´
+´´´
+npm install
+´´´
 
-´´´npm run knex: migrate´´´
+´´´
+npm run knex: migrate
 
-´´´npm run knex: seed´´´
+´´´
+
+´´´
+npm run knex: seed
+´´´
 
 **Uso**
-´´´npm run dev´´´
+
+´´´
+npm run dev
+´´´
 
 **Endpoints**
+
 *Usuários*
+
 - POST/signup
 - POST/login
 - GET/users
+- 
 *Posts*
+
 - POST/posts
 - GET/posts
 - DELETE/posts/:id
 - PUT/posts/:id
+- 
 *Comentários*
+
 - POST/comments
 - GET/comments
 - DELETE/comments/:id
 - PUT/comments/:id
+- 
 *Like/Dislike*
+
 - PUT/posts/:id/like
 - PUT/comments/:id/like  
