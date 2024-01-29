@@ -31,6 +31,7 @@ npm run dev
 ```
 
 **Endpoints**
+Aqui esta o link para a documentação no Postman, com mais explicações sobre os endpoints e suas funcionalidades: link
 
 *Usuários*
 
@@ -55,4 +56,4 @@ npm run dev
 *Like/Dislike*
 
 - PUT/posts/:id/like
-- PUT/comments/:id/like  
+- PUT/comments/:id/like
