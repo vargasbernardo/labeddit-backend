@@ -57,3 +57,6 @@ Aqui esta o link para a documentação no Postman, com mais explicações sobre 
 
 - PUT/posts/:id/like
 - PUT/comments/:id/like
+
+Link do repositório do Front-end do projeto: [https://github.com/vargasbernardo/labeddit-frontend/blob/main/README.md](https://github.com/vargasbernardo/labeddit-frontend)https://github.com/vargasbernardo/labeddit-frontend
+
