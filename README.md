@@ -31,7 +31,7 @@ npm run dev
 ```
 
 **Endpoints**
-Aqui esta o link para a documentação no Postman, com mais explicações sobre os endpoints e suas funcionalidades: link
+Aqui esta o link para a documentação no Postman, com mais explicações sobre os endpoints e suas funcionalidades: [link](https://documenter.getpostman.com/view/28314586/2s9YysCLz7)
 
 *Usuários*
 
