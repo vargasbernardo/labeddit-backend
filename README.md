@@ -14,24 +14,21 @@
 - Jest
 
 **Instalação**
-´´´
+
+```
 npm install
-´´´
+```
 
-´´´
+```
 npm run knex: migrate
-
-´´´
-
-´´´
 npm run knex: seed
-´´´
+```
 
 **Uso**
 
-´´´
+```
 npm run dev
-´´´
+```
 
 **Endpoints**
 
